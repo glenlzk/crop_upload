@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+    <link rel="stylesheet" href="./src/cropper/cropper.css">
+    <link rel="stylesheet" href="./src/vue_cropper/vue_cropper.css">
+    <style>
+        .label {
+            display: none;
+        }
+    </style>
+</head>
+<body id="body">
+   <!-- -->
+   <button @click="clickGetFilesElem">上传</button>
+   <label for="input" class="label" v-el:labelelem>
+       <input type="file" class="sr-only" id="input" name="image" accept="image/*" @change="getFilesChange($event)" v-el:iptelem>
+   </label>
+
+   <vue-cropper :img-url.sync="imgUrl" :show.sync="isShow"></vue-cropper>
+
+   <!--
+    <mz-datepicker format="yyyy-MM-dd" :start-time.sync="initdata.fromDate" :end-time.sync="initdata.toDate" range en confirm :on-confirm="finaDepositDate"></mz-datepicker>
+   -->
+
+</body>
+</html>
+<script src="./src/vue.min.js"></script>
+<script src="./src/jquery.js"></script>
+<script src="./src/cropper/cropper.js"></script>
+<script src="./src/vue_cropper/vue_cropper.js"></script>
+<script>
+
+    var module = new Vue({
+        el: '#body',
+        data: {
+            isShow: false,
+            imgUrl: ''
+        },
+        watch: {
+            isShow: function (){
+
+            }
+        },
+        methods: {
+            showMaskFun: function() {
+                var _self = this;
+
+                _self.isShow = true;
+            },
+            clickGetFilesElem: function () {
+                var _self = this;
+
+                _self.$els.labelelem && _self.$els.labelelem.click();
+            },
+            getFilesChange: function (e) {
+                var _self = this;
+                var files = e.target.files;
+                var done = function (url) {
+                    _self.$els.iptelem.value = '';
+                    _self.imgUrl = url;
+                    _self.isShow = true;
+                };
+
+                var reader;
+                var file;
+
+                if (files && files.length > 0) {
+                    file = files[0];
+
+                    if (URL) {
+                        done(URL.createObjectURL(file));
+                    } else if (FileReader) {
+                        reader = new FileReader();
+                        reader.onload = function (e) {
+                            done(reader.result);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+            }
+
+        }
+    })
+
+</script>

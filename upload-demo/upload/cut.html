@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="css/cropper.css">
+<link rel="stylesheet" href="css/myCrop.css">
+<div class="container" style="width:100%;height:100%;text-align:center;padding: 0;margin: 0;position:fixed;display:block;top: 0;background-color:#eeeeee;z-index: 200;" id="containerDiv">
+    <div class="img-container">
+        <img src="" alt="Picture">
+    </div>
+    <div class="row" id="actions" style="padding: 0;margin: 0;width: 100%;position: fixed;bottom: 5px;background-color: #abc;">
+        <button type="button"   data-method="destroy" title="Destroy" style="height: auto;">
+            <span   >取消</span>
+        </button>
+        <button type="button"   id="imgCutConfirm" data-method="getCroppedCanvas"  style="height: auto;margin-right: 17px;">
+            <span   title="">确认</span> <!--cropper.getCroppedCanvas({ width: 320, height: 180 }) -->
+        </button>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/jquery.min.js" ></script>
+<script type="text/javascript" src="js/exif.js"></script>
+<script type="text/javascript" src="js/cropper.js"></script>
+<script type="text/javascript" src="js/myCrop.js?v=1.0.4"></script>
+
+<script>
+    $(function(){
+        $("#imgCutConfirm").bind("click",function(){
+            $("#containerDiv").hide();
+        })
+    })
+</script>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../reset.css" />
+    <link rel="stylesheet" href="./uploadify.css" />
+    <script src="./jquery.min.js"></script>
+    <script src="./jquery.uploadify.min.js"></script>
+    <script src="../vue.min.js"></script>
+    <style>
+        .outbox {
+            margin: 10px auto;
+            width: 1000px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="outbox">
+        <div id="demo">
+            <div>
+                未封装upload button:
+            </div>
+            <br>
+            <div id="uploadfyBtn"></div>
+        </div>
+        <br>
+        <div id="demo2">
+            <div>
+                已封装upload button:
+            </div>
+            <br>
+            <v-uploadify :elem-id.sync="vueUploadfyBtn" :param.sync="uploadParam" :img-infor.sync="backImgeInfor"></v-uploadify>
+            <!--<div id="vueUploadfyBtn"></div>-->
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+
+    var yzlObj = yzlObj || {};
+
+    yzlObj = {
+        InitUploadify: function (param) {
+            var _self = this;
+            if (param.id == '')  return;
+
+            method = param.method || 'post';
+
+            $('#' + param.id).uploadify({
+                'auto': true,
+                'fileSizeLimit': '300KB',
+                'fileTypeDesc': 'Files',
+                'fileTypeExts': '*.gif; *.jpg; *.png;',
+                'method': method,
+                'multi': true,
+                'queueID': 'fileQueue',
+                'buttonText': param.buttonText,
+                'swf': './uploadify.swf',
+                'formData': param.data,
+                'uploader': param.url,
+                'onSelectError': function (file, errorCode, errorMsg) {
+                    switch (errorCode) {
+                        case -100:
+                            alert("上传的文件数量已经超出系统限制的个文件！");
+                            break;
+                        case -110:
+                            alert("文件大小超出系统限制的");
+                            break;
+                        case -120:
+                            alert("文件大小异常！");
+                            break;
+                        case -130:
+                            alert("文件类型不正确！");
+                            break;
+                    }
+                    return false;
+                },
+                'onFallback': function () {
+                    alert("您未安装FLASH控件，无法上传图片！请安装FLASH控件后再试。");
+                },
+                'onUploadSuccess': function (file, data, response) {
+                    var result = eval('(' + data + ')');
+                },
+                'onUploadError': function(file, errorCode, errorMsg, errorString) {
+                    alert(errorMsg);
+                },
+            });
+        }
+    };
+
+    var yzlObj = yzlObj || {};
+
+    // 未封装upload btn封装
+    ;(function (yzl) {
+
+        function uploadGuideRoomImage (id) {
+            yzl.InitUploadify({
+                id: id,												// 上传按钮id
+                url: '/yzlpms/img/j/uploadRoomGuideImage',						// 上传服务器地址
+                data: {},
+                method:'get',
+                buttonText:'上传图片',
+                sCallback: function (data) {
+                    var result = JSON.parse(data);
+                    if (result.code == "0000") {
+                        /* _self.saveAddroomGuideInfor.imageIds.push(result.data.imageId);
+                         _self.saveImgUrlList.push(result.data.imageUrl);*/
+                    };
+                }
+            });
+        };
+
+        uploadGuideRoomImage('uploadfyBtn');
+
+    })(yzlObj);
+
+
+    // select vue插件
+    ;(function(yzl) {
+
+        var tm = '<div :id="[elemId]"></div>';
+
+        var uploadifyVue = Vue.extend({
+            template: tm,
+            props: [
+                'elemId',
+                'param',
+                'imgInfor',      // 上传成功 imgUrl, imgId
+            ],
+            data: function(){
+                return {
+
+                }
+            },
+            watch: {
+                'param.reloadPlugin': function () {
+                    var _self = this;
+                    _self.initUploadfy();
+                }
+            },
+            ready: function () {
+                var _self = this;
+                _self.initUploadfy();
+            },
+            computed: {
+
+            },
+            methods: {
+                /*
+                     var param = {
+                         url: '',
+                         data: {},
+                         btnText: '',
+                         reloadPlugin: ''
+                     };
+                 */
+                initUploadfy: function () {
+                    var _self = this;
+                    _self.$nextTick(function () {
+                        yzl.InitUploadify({
+                            id: _self.elemId,												// 上传按钮id
+                            url: _self.param.url,						// 上传服务器地址
+                            data: _self.param.data,
+                            method:'get',
+                            buttonText:_self.param.btnText,
+                            sCallback: function (data) {
+                                var result = JSON.parse(data);
+                                if (result.code == "0000") {
+                                    _self.imgInfor = result.data;
+                                };
+                            }
+                        });
+
+                    });
+                },
+            },
+            events: {
+                watchValFun: function () {
+                    var _self = this;
+
+                },
+            }
+        });
+
+        yzl.uploadifyVue = uploadifyVue;
+
+        // 应用1
+        var multiVue = new Vue({
+            el : '#demo2',
+            data: {
+                'vueUploadfyBtn': 'vueUploadfyBtn',
+                'uploadParam': {
+                    url: '/yzlpms/img/j/uploadRoomGuideImage',
+                    data: {},
+                    btnText: '上传图片',
+                },
+                'backImgeInfor': {}
+            },
+            watch: {
+
+            },
+            components:{
+                'v-uploadify': yzlObj.uploadifyVue
+            },
+            methods: {
+                initData: function () {
+                    var _self = this;
+                }
+            }
+        });
+
+    })(yzlObj);
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

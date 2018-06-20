@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="./upload.css">
+    <style>
+
+    </style>
+</head>
+<body>
+    <div class="outbox" id="demo">
+        <p>time picker</p>
+        <br>
+        <br>
+        <div>
+            <upload-plugin></upload-plugin>
+        </div>
+    </div>
+
+</body>
+</html>
+<script src="./vue.min.js"></script>
+<script src="upload.js"></script>
+<script type="text/javascript">
+    // 应用1
+    var multiVue = new Vue({
+        el : '#demo',
+        data: {
+            intime: '16:00',
+            outtime: '13:00'
+        },
+        watch: {
+
+        },
+        components:{
+
+        },
+        methods: {
+
+        }
+    });
+
+
+</script>

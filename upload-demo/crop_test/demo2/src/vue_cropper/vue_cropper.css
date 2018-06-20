@@ -1,0 +1,143 @@
+@charset "UTF-8";
+
+.cropper-mask {
+    background-color: #333;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    z-index: 99;
+    top: 0px;
+}
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+.cropper-mask .cropper-title {
+    background: #666;
+    height: 48px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+}
+
+.cropper-mask .cropper-title .l-title {
+    color: #fff;
+    display: block;
+    float: left;
+    font-size: 18px;
+    line-height: 48px;
+    padding-left: 30px;
+}
+
+.cropper-mask .cropper-title .r-operate {
+    color: #fff;
+    display: block;
+    float: right;
+    padding-right: 30px;
+    text-align: center;
+}
+.cropper-mask .cropper-title .r-operate .item {
+    font-size: 14px;
+    float: right;
+    padding-right: 30px;
+    background: #999;
+    margin-top: 10px;
+    padding: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+
+/*.cropper-mode {
+    width: 800px;
+    height: 600px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -400px;
+    margin-top: -300px;
+    background: #333;
+}
+.cropper-body {
+    height: 570px;
+}
+.cropper-footer {
+    height: 30px;
+    border-top: 1px solid #ccc;
+}*/
+.cropper-container img {
+    /*max-width: 100%!important;*/
+}
+
+.img-container {
+    padding-top: 48px;
+}
+
+.cropper-toolbar{
+    background-color: rgba(0, 0, 0, .5);
+    bottom: 50px;
+    color: #fff;
+    height: 32px;
+    left: 50%;
+    margin-left: -144px;
+    position: absolute;
+    width: 288px;
+    z-index: 2015;
+}
+
+.cropper-toolbar span {
+    background-color: transparent;
+    border-width: 0;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    float: left;
+    height: 32px;
+    text-align: center;
+    width: 32px;
+    line-height: 32px;
+}
+
+.cropper-toolbar span:hover {
+    background-color: #0074d9;
+    color: #fff;
+}
+
+/*../fonts/*/
+
+@font-face {font-family: "cropfont";
+    src: url('../fonts/iconfont.eot?t=1528182490512'); /* IE9*/
+    src: url('../fonts/iconfont.eot?t=1528182490512#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('data:application/x-font-woff;charset=utf-8;base64,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') format('woff'),
+    url('../fonts/iconfont.ttf?t=1528182490512') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+    url('../fonts/iconfont.svg?t=1528182490512#cropfont') format('svg'); /* iOS 4.1- */
+}
+
+.cropfont {
+    font-family:"cropfont" !important;
+    font-size:16px;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.crop-huifu:before { content: "\e69a"; }
+
+.crop-jiantouarrow480:before { content: "\e692"; }
+
+.crop-jiantouarrow499:before { content: "\e6a5"; }
+
+.crop-jiantouarrow484:before { content: "\e6a8"; }
+
+.crop-suoxiao:before { content: "\e744"; }
+
+.crop-tupiancaijian:before { content: "\e66e"; }
+
+.crop-xuanzhuan:before { content: "\e66f"; }
+
+.crop-xuanzhuan1:before { content: "\e670"; }
+
+.crop-fangda:before { content: "\e66b"; }
