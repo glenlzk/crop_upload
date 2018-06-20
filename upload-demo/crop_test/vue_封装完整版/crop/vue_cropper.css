@@ -1,0 +1,9 @@
+ @charset "UTF-8";
+
+ .crop-container {
+     position: relative;
+ }
+
+ .preview {
+     overflow: hidden;
+ }
